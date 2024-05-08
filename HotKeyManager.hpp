@@ -22,34 +22,33 @@ public:
     {
         if (RegisterHotKey(hwnd, m_NextId, modifiers, key)) 
         {
-            HotKeyMap.emplace(m_HotKey{ m_NextId, modifiers, key }, function);
+            m_HotKeyMap.emplace(m_HotKey{ m_NextId, modifiers, key }, function);
             ++m_NextId;
         }
     }
 
     void RemoveHotKey(HWND hwnd, int modifiers, int key) noexcept
     {
-        auto it = std::find_if(HotKeyMap.begin(), HotKeyMap.end(), [&](const auto& pair) 
+        auto it = std::find_if(m_HotKeyMap.begin(), m_HotKeyMap.end(), [&](const auto& pair) 
         {
             return pair.first.key == key && pair.first.modifiers == modifiers;
         });
 
-        if (it != HotKeyMap.end()) 
+        if (it != m_HotKeyMap.end()) 
         {
             if (UnregisterHotKey(hwnd, it->first.id))
             {
-                HotKeyMap.erase(it);
+                m_HotKeyMap.erase(it);
             }
         }
     }
 
     void OnHotKeyPressed(int id) noexcept
     {
-        m_HotKey key = { id };
-        auto it = HotKeyMap.find(key);
-        if (it != HotKeyMap.end())
+        m_HotKey key{ id };
+        if (m_HotKeyMap.contains(key))
         {
-            std::jthread th(it->second);
+            std::jthread th(m_HotKeyMap.at(key));
             th.detach();
         }
     }
@@ -77,6 +76,6 @@ private:
         }
     };
 
-    std::unordered_map<m_HotKey, std::function<void()>, HotKeyHash> HotKeyMap;
+    std::unordered_map<m_HotKey, std::function<void()>, HotKeyHash> m_HotKeyMap;
     int m_NextId{ 1 };
 };
