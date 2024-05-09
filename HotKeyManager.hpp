@@ -12,13 +12,13 @@ public:
     HotKeyManager(HotKeyManager&&) = delete;
     HotKeyManager& operator=(HotKeyManager&&) = delete;
 
-    static HotKeyManager& GetInstance()
+    inline static HotKeyManager& GetInstance() noexcept
     {
         static HotKeyManager s_instance;
         return s_instance;
     }
 
-    void AddHotKey(HWND hwnd, int modifiers, int key, std::function<void()> function) noexcept
+    inline void AddHotKey(HWND hwnd, int modifiers, int key, std::function<void()> function) noexcept
     {
         if (RegisterHotKey(hwnd, m_NextId, modifiers, key)) 
         {
@@ -27,7 +27,7 @@ public:
         }
     }
 
-    void RemoveHotKey(HWND hwnd, int modifiers, int key) noexcept
+    inline void RemoveHotKey(HWND hwnd, int modifiers, int key) noexcept
     {
         auto it = std::find_if(m_HotKeyMap.begin(), m_HotKeyMap.end(), [&](const auto& pair) 
         {
@@ -43,7 +43,7 @@ public:
         }
     }
 
-    void OnHotKeyPressed(int id) noexcept
+    inline void OnHotKeyPressed(int id) noexcept
     {
         m_HotKey key{ id };
         if (m_HotKeyMap.contains(key))
@@ -55,6 +55,7 @@ public:
 
 private:
     HotKeyManager() = default;
+    ~HotKeyManager() = default;
 
     struct m_HotKey
     {
