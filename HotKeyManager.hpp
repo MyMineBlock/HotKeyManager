@@ -18,7 +18,7 @@ public:
         return s_instance;
     }
 
-    inline void AddHotKey(HWND hwnd, int modifiers, int key, std::function<void()> function) noexcept
+    inline void AddHotKey(const HWND hwnd, const int modifiers, const int key, std::function<void()> function) noexcept
     {
         if (RegisterHotKey(hwnd, m_NextId, modifiers, key)) 
         {
@@ -27,7 +27,7 @@ public:
         }
     }
 
-    inline void RemoveHotKey(HWND hwnd, int modifiers, int key) noexcept
+    inline void RemoveHotKey(const HWND hwnd, const int modifiers, const int key) noexcept
     {
         auto it = std::find_if(m_HotKeyMap.begin(), m_HotKeyMap.end(), [&](const auto& pair) 
         {
@@ -43,7 +43,7 @@ public:
         }
     }
 
-    inline void OnHotKeyPressed(int id) noexcept
+    inline void OnHotKeyPressed(const int id) noexcept
     {
         m_HotKey key{ id };
         if (m_HotKeyMap.contains(key))
