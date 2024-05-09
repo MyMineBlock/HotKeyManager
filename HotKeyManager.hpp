@@ -18,7 +18,7 @@ public:
         return s_instance;
     }
 
-    inline void AddHotKey(const HWND hwnd, const int modifiers, const int key, std::function<void()> function) noexcept
+    inline void AddHotKey(const HWND hwnd, const int modifiers, const int key, const std::function<void()> function) noexcept
     {
         if (RegisterHotKey(hwnd, m_NextId, modifiers, key)) 
         {
