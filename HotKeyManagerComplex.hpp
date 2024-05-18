@@ -44,7 +44,7 @@ public:
         }
     }
 
-    [[noreturn]] inline void OnHotKeyPressed(const int id) noexcept
+    inline void OnHotKeyPressed(const int id) noexcept
     {
         m_EventQueue.push(id);
     }
