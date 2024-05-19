@@ -7,11 +7,6 @@
 class HotKeyManager
 {
 public:
-    HotKeyManager(const HotKeyManager&) = delete;
-    HotKeyManager& operator=(const HotKeyManager&) = delete;
-    HotKeyManager(HotKeyManager&&) = delete;
-    HotKeyManager& operator=(HotKeyManager&&) = delete;
-
     static inline HotKeyManager& GetInstance() noexcept
     {
         static HotKeyManager s_instance;
@@ -60,9 +55,6 @@ public:
         return std::optional<int>{};
     }
 private:
-    HotKeyManager() = default;
-    ~HotKeyManager() = default;
-
     struct m_HotKey
     {
         int id;
@@ -73,4 +65,12 @@ private:
     std::vector<m_HotKey> m_HotKeys{};
     std::queue<int> m_EventQueue{};
     int m_NextId{ 1 };
+private:
+    HotKeyManager() = default;
+    ~HotKeyManager() = default;
+
+    HotKeyManager(const HotKeyManager&) = delete;
+    HotKeyManager& operator=(const HotKeyManager&) = delete;
+    HotKeyManager(HotKeyManager&&) = delete;
+    HotKeyManager& operator=(HotKeyManager&&) = delete;
 };
