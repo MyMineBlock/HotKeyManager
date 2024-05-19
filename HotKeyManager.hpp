@@ -7,12 +7,7 @@
 class HotKeyManager
 {
 public:
-    HotKeyManager(const HotKeyManager&) = delete;
-    HotKeyManager& operator=(const HotKeyManager&) = delete;
-    HotKeyManager(HotKeyManager&&) = delete;
-    HotKeyManager& operator=(HotKeyManager&&) = delete;
-
-    inline static HotKeyManager& GetInstance() noexcept
+    [[nodiscard]] inline static HotKeyManager& GetInstance() noexcept
     {
         static HotKeyManager s_instance;
         return s_instance;
@@ -54,9 +49,6 @@ public:
     }
 
 private:
-    HotKeyManager() = default;
-    ~HotKeyManager() = default;
-
     struct m_HotKey
     {
         int id;
@@ -79,4 +71,12 @@ private:
 
     std::unordered_map<m_HotKey, std::function<void()>, HotKeyHash> m_HotKeyMap;
     int m_NextId{ 1 };
+private:
+    HotKeyManager() = default;
+    ~HotKeyManager() = default;
+
+    HotKeyManager(const HotKeyManager&) = delete;
+    HotKeyManager& operator=(const HotKeyManager&) = delete;
+    HotKeyManager(HotKeyManager&&) = delete;
+    HotKeyManager& operator=(HotKeyManager&&) = delete;
 };
