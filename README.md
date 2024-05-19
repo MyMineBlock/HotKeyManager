@@ -43,7 +43,7 @@ void SomeClassAddHotKey(HWND hwnd, int modifiers, int key, CallBack callback) {
     // This could go wrong since it is an optional
     if(const auto id = HotKeyManager::GetInstance().AddHotKey(hwnd, MOD_NOREPEAT, 'B')) {
         // You will need to save the id and associate it with a function or the parameters to a single function
-        funcmap.emplace(*id, callback);
+        funcmap.emplace(id.value(), callback);
     }
 }
 
@@ -58,7 +58,7 @@ struct some_class
 
 while (true) {
     if (const auto id = HotKeyManager::GetInstance().ReadQueue()) {
-	    some_class.go(*id);
+	    some_class.go(id.value());
     }
 }
 ```
