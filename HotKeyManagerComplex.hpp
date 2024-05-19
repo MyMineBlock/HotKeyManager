@@ -7,7 +7,7 @@
 class HotKeyManager
 {
 public:
-    static inline HotKeyManager& GetInstance() noexcept
+    [[nodiscard]] static inline HotKeyManager& GetInstance() noexcept
     {
         static HotKeyManager s_instance;
         return s_instance;
